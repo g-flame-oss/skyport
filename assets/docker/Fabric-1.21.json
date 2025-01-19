@@ -1,0 +1,26 @@
+{
+    "Image": "quay.io/skyport/java:21",
+    "Cmd": "docker pull quay.io/skyport/java:21",
+    "Env": [
+        "START=java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar server.jar"
+    ],
+    "Scripts": {
+        "Install": [
+            {
+                "Uri": "https://meta.fabricmc.net/v2/versions/loader/1.21.3/0.16.9/1.0.1/server/jar",
+                "Path": "server.jar"
+            },
+            {
+                "Uri": "https://raw.githubusercontent.com/skyportlabs/images_v2/main/spigotmc/server.properties",
+                "Path": "server.properties"
+            }
+        ]
+    },
+    "Name": "Fabric 1.21.3",
+    "Description": "Fabric is a lightweight, modular, and high-performance server for Minecraft, known for its speed and the ability to dynamically load mods. It provides a simple way to enhance the Minecraft experience, allowing for extensive customization with a wide variety of compatible mods and tools. Fabric is favored by developers and players for its flexibility and performance, making it a popular choice for Minecraft multiplayer environments.",
+    "Author": "thegreenflame1507@gmail.com",
+    "AuthorName": "G_flame",
+    "Meta": {
+        "Version": "1.21"
+    }
+}
