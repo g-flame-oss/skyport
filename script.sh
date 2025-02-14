@@ -10,8 +10,6 @@ panel() {
     cd /tmp/skyport/
     mkdir /etc/skyport/
     mv /tmp/skyport/assets/panel/* /etc/skyport/
-    rm /etc/skyport/exec/seed.js
-    mv /tmp/skyport/assets/docker/seed.js /etc/skyport/exec/
     cd /etc/skyport
     npm install 
     npm run seed

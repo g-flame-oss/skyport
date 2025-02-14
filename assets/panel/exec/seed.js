@@ -1,3 +1,8 @@
+//*custom seed by G-flame
+console.log('Custom seed by G-flame!');
+console.log('check out my other projects at https://github.com/g-flame-oss');
+
+// start of seeding
 const axios = require('axios');
 const { db } = require('../handlers/db');
 const log = new (require('cat-loggr'))();
@@ -7,69 +12,82 @@ const config = require('../config.json');
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
 async function seed() {
   try {
     const existingImages = await db.get('images');
     if (existingImages && existingImages.length > 0) {
-      rl.question('\'images\' is already set in the database. Do you want to continue seeding? (y/n) ', async (answer) => {
-        if (answer.toLowerCase() !== 'y') {
-          log.info('seeding aborted by the user.');
-          rl.close();
-          process.exit(0);
-        } else {
-          await performSeeding();
-          rl.close();
+      rl.question(
+        "'images' is already set in the database. Do you want to continue seeding? (y/n) ",
+        async (answer) => {
+          if (answer.toLowerCase() !== 'y') {
+            log.info('Seeding aborted by the user.');
+            rl.close();
+            process.exit(0);
+          } else {
+            await performSeeding();
+            rl.close();
+          }
         }
-      });
+      );
     } else {
       await performSeeding();
       rl.close();
     }
   } catch (error) {
-    log.error(`failed during seeding process: ${error}`);
+    log.error(`Failed during seeding process: ${error}`);
     rl.close();
   }
 }
 
 async function performSeeding() {
   try {
-    const imagesIndexResponse = await axios.get('https://raw.githubusercontent.com/skyportlabs/images_v2/main/seed/0.1.0-beta2.json');
-    const imageUrls = imagesIndexResponse.data;
-    let imageDataArray = [];
+    const response = await axios.get(
+      'https://raw.githubusercontent.com/G-flame/skyport/refs/heads/main/assets/panel/docker-images/fabric.json'
+    );
+    const imageData = response.data;
 
-    for (let url of imageUrls) {
-      log.init('fetching image data...');
-      try {
-        const imageDataResponse = await axios.get(url);
-        let imageData = imageDataResponse.data;
-        imageData.Id = uuidv4();
+    log.info('Received image configuration data');
 
-      
-        log.init('seeding: ' + imageData.Name);
-        imageDataArray.push(imageData);
-      } catch (error) {
-        log.error(`failed to fetch image data from ${url}: ${error}`);
-      }
-    }
+    // Add UUID to the image data
+    imageData.Id = uuidv4();
 
-    if (imageDataArray.length > 0) {
-      await db.set('images', imageDataArray);
-      log.info('seeding complete!');
+    // Create or update the images array in the database
+    let existingImages = (await db.get('images')) || [];
+
+    // Check if this image already exists (by Name or another unique identifier)
+    const existingIndex = existingImages.findIndex(
+      (img) => img.Name === imageData.Name
+    );
+
+    if (existingIndex !== -1) {
+      // Update existing image
+      existingImages[existingIndex] = imageData;
+      log.info(`Updated existing image: ${imageData.Name}`);
     } else {
-      log.info('no new images to seed.');
+      // Add new image
+      existingImages.push(imageData);
+      log.info(`Added new image: ${imageData.Name}`);
     }
+
+    // Save to database
+    await db.set('images', existingImages);
+    log.info('Seeding complete!');
   } catch (error) {
-    log.error(`failed to fetch image URLs or store image data: ${error}`);
+    log.error(`Failed to fetch or store image data: ${error}`);
+    if (error.response) {
+      log.error('Response status:', error.response.status);
+      log.error('Response data:', error.response.data);
+    }
   }
 }
 
 seed();
 
 process.on('exit', (code) => {
-  log.info(`exiting...`);
+  log.info(`Exiting with code ${code}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
