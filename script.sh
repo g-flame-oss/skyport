@@ -23,6 +23,7 @@ daemon() {
     mv /tmp/skyport/assets/daemon/* /etc/skyportd
     cd /etc/skyportd
     npm install
+    docker pull quay.io/skyport/java:21
     echo -e "${Red}---------------------------------------------${White}"
     echo -e "daemon install done!"
 }
