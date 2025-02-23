@@ -1,0 +1,11 @@
+[Unit]
+Description=skyport panel start service
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/skyport/panel/
+ExecStart=/usr/bin/node .
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
