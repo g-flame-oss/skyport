@@ -1,15 +1,15 @@
 /*
- *           __                          __
- *      _____/ /____  ______  ____  _____/ /_
+ *           __                          __ 
+*      _____/ /____  ______  ____  _____/ /_
  *    / ___/ //_/ / / / __ \/ __ \/ ___/ __/
- *   (__  ) ,< / /_/ / /_/ / /_/ / /  / /_
- *  /____/_/|_|\__, / .___/\____/_/   \__/
- *           /____/_/
- *
+ *   (__  ) ,< / /_/ / /_/ / /_/ / /  / /_  
+ *  /____/_/|_|\__, / .___/\____/_/   \__/  
+ *           /____/_/                  
+ *              
  *  Skyport Panel 0.3.0 (Oz)
- *  (c) 2024 Matt James and contributors and g-flame
- *
- */
+ *  (c) 2024 Matt James and contributors
+ * 
+*/
 
 /**
  * @fileoverview Main server file for Skyport Panel. Sets up the express application,
@@ -35,12 +35,12 @@ const rateLimit = require('express-rate-limit');
 const theme = require('./storage/theme.json');
 const analytics = require('./utils/analytics.js');
 
-const sqlite = require('better-sqlite3');
-const SqliteStore = require('better-sqlite3-session-store')(session);
-const sessionStorage = new sqlite('sessions.db');
+const sqlite = require("better-sqlite3");
+const SqliteStore = require("better-sqlite3-session-store")(session);
+const sessionStorage = new sqlite("sessions.db");
 const { loadPlugins } = require('./plugins/loadPls.js');
 let plugins = loadPlugins(path.join(__dirname, './plugins'));
-plugins = Object.values(plugins).map((plugin) => plugin.config);
+plugins = Object.values(plugins).map(plugin => plugin.config);
 
 const { init } = require('./handlers/init.js');
 
@@ -52,12 +52,12 @@ app.use(
       client: sessionStorage,
       expired: {
         clear: true,
-        intervalMs: 9000000,
-      },
+        intervalMs: 9000000
+      }
     }),
-    secret: config.session_secret || 'secret',
+    secret: config.session_secret || "secret",
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 );
 
@@ -78,7 +78,7 @@ app.use(passport.session());
 const postRateLimiter = rateLimit({
   windowMs: 60 * 100,
   max: 6,
-  message: 'Too many requests, please try again later',
+  message: 'Too many requests, please try again later'
 });
 
 app.use((req, res, next) => {
@@ -91,20 +91,18 @@ app.use((req, res, next) => {
 
 /**
  * Generates a random 16-character hexadecimal string.
- *
+ * 
  * @param {number} length - The length of the string to generate.
  * @returns {string} - The generated string.
  */
 function generateRandomString(length) {
-  return crypto
-    .getRandomValues(new Uint8Array(length))
-    .reduce((str, byte) => str + String.fromCharCode(byte), '');
+  return crypto.getRandomValues(new Uint8Array(length)).reduce((str, byte) => str + String.fromCharCode(byte), '');
 }
 
 /**
  * Recursively traverses an object and replaces any value that is exactly "random"
  * with a randomly generated string.
- *
+ * 
  * @param {Object} obj - The object to traverse.
  */
 function replaceRandomValues(obj) {
@@ -122,7 +120,7 @@ function replaceRandomValues(obj) {
  */
 async function updateConfig() {
   const configPath = './config.json';
-
+  
   try {
     let configData = fs.readFileSync(configPath, 'utf8');
     let config = JSON.parse(configData);
@@ -137,21 +135,17 @@ async function updateConfig() {
 updateConfig();
 
 function getLanguages() {
-  return fs.readdirSync(__dirname + '/lang').map((file) => file.split('.')[0]);
+  return fs.readdirSync(__dirname + '/lang').map(file => file.split('.')[0]);
 }
 
 app.get('/setLanguage', async (req, res) => {
   const lang = req.query.lang;
   if (lang && getLanguages().includes(lang)) {
-    res.cookie('lang', lang, {
-      maxAge: 90000000,
-      httpOnly: true,
-      sameSite: 'strict',
-    });
-    req.user.lang = lang;
-    res.json({ success: true });
+      res.cookie('lang', lang, { maxAge: 90000000, httpOnly: true, sameSite: 'strict' });
+      req.user.lang = lang;
+      res.json({ success: true });
   } else {
-    res.json({ success: false });
+      res.json({ success: false });
   }
 });
 
@@ -205,7 +199,7 @@ app.use(express.static('public'));
 
 const routesDir = path.join(__dirname, 'routes');
 function loadRoutes(directory) {
-  fs.readdirSync(directory).forEach((file) => {
+  fs.readdirSync(directory).forEach(file => {
     const fullPath = path.join(directory, file);
     const stat = fs.statSync(fullPath);
 
@@ -216,9 +210,9 @@ function loadRoutes(directory) {
       expressWs.applyTo(route);
 
       if (fullPath.includes(path.join('routes', 'Admin'))) {
-        app.use('/', route);
+        app.use("/", route);
       } else {
-        app.use('/', route);
+        app.use("/", route);
       }
     }
   });
@@ -227,24 +221,20 @@ loadRoutes(routesDir);
 
 // Plugin routes and views
 const pluginRoutes = require('./plugins/pluginManager.js');
-app.use('/', pluginRoutes);
+app.use("/", pluginRoutes);
 const pluginDir = path.join(__dirname, 'plugins');
-const PluginViewsDir = fs
-  .readdirSync(pluginDir)
-  .map((addonName) => path.join(pluginDir, addonName, 'views'));
+const PluginViewsDir = fs.readdirSync(pluginDir).map(addonName => path.join(pluginDir, addonName, 'views'));
 app.set('views', [path.join(__dirname, 'views'), ...PluginViewsDir]);
 
 // Init
 init();
 
 console.log(chalk.gray(ascii) + chalk.white(`version v${config.version}\n`));
-app.listen(config.port, () =>
-  log.info(`Skyport is listening on port ${config.port}`)
-);
+app.listen(config.port, () => log.info(`Skyport is listening on port ${config.port}`));
 
-app.get('*', async function (req, res) {
+app.get('*', async function(req, res){
   res.render('errors/404', {
     req,
-    name: (await db.get('name')) || 'Skyport',
-  });
+    name: await db.get('name') || 'Skyport'
+  })
 });

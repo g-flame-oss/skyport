@@ -6,39 +6,26 @@ Green='\033[0;32m'
 Red='\033[0;31m'
 Yellow='\033[0;33m'
 #functions
-
-
-
-
 panel() {
-    mkdir /etc/skyport/panel
-    mv /tmp/skyport/assets/skyport/panel/* /etc/skyport/panel/
-    cd /etc/skyport/panel/
+    cd /tmp/skyport/
+    mkdir /etc/skyport/
+    mv /tmp/skyport/assets/panel/* /etc/skyport/
+    cd /etc/skyport
     npm install 
     npm run seed
     npm run createUser
     echo -e "${Red}---------------------------------------------${White}"
     echo -e "panel install done!"
 }
-
-
-
-
 daemon() {
-    mkdir /etc/skyport/daemon/
-    mv /tmp/skyport/assets/skyport/daemon/* /etc/skyport/daemon
-    cd /etc/skyport/daemon/
+    cd /tmp/skyport
+    mkdir /etc/skyportd
+    mv /tmp/skyport/assets/daemon/* /etc/skyportd
+    cd /etc/skyportd
     npm install
-    docker pull quay.io/skyport/java:21
     echo -e "${Red}---------------------------------------------${White}"
     echo -e "daemon install done!"
 }
-
-
-
-
-
-
 panel-depends() {
     mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -46,10 +33,6 @@ panel-depends() {
     apt update
     apt install -y nodejs git
 }
-
-
-
-
 daemon-depends() {
     curl -sSL https://get.docker.com/ | CHANNEL=stable bash
     mkdir -p /etc/apt/keyrings
@@ -58,37 +41,18 @@ daemon-depends() {
     apt update
     apt install -y nodejs git
 }
-
-
-
-
 dependencies() {
     panel-depends
     daemon-depends
 }
-
-
-
-
-
-
 rm-panel() {
     cd /etc/
     rm -rf skyport
 }
-
-
-
-
 rm-daemon() {
     cd /etc/
     rm -rf skyportd
 }
-
-
-
-
-
 rm-dependencies() {
 if command -v docker &> /dev/null; then
     apt-get remove -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -105,19 +69,6 @@ apt-get autoclean
 apt-get update
 echo "Uninstallation of Docker and Node.js is complete."
 }
-
-systemd-services () {
-    mv /tmp/skyport/systemd/* /etc/systemd/system/
-    cp /tmp/skyport/assets/panel/skyport /bin/
-    echo "systemd services installed use 'skyport start' to start skyport panel"
-}
-
-
-
-
-
-
-
 ##ui
 greet() {
 echo -e " ${Blue}----${Green}INSTALLER HOME${Yellow}--------${White}"
@@ -232,4 +183,4 @@ ui() {
 ##EXECUTING 
 clear
 ui
-## i know my code is shit don't rub salt in a wound 
+## i know my code is shit don't run salt in a wound 

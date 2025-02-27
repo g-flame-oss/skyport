@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo "starting skyport...."
-
-sudo systemctl start skyportpanel.service
-sudo systemctl start skyportdaemon.service
-
