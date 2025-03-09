@@ -91,20 +91,16 @@ fi
 ui() {
     root
     greet
-    echo -e "${Yellow}-_--_--_--_--_--_-${Green}INSTALL${Yellow}-_--_--_--_--_--_--_--_--_-${White}"
     echo -e "1)${Green}install ${Blue}panel and daemon${White}(dependencies too)!"
     echo -e "2)${Green}install ${Blue}panel${White} only!"
     echo -e "3)${Green}install ${Blue}daemon${White} only!"
     echo -e "4)${Green}install ${Blue}dependencies${White} (both panel and daemon depends!)only!"
-    echo -e "${Yellow}-_--_--_--_--_--_-${Red}REMOVAL${Yellow}-_--_--_--_--_--_--_--_--_-${White}"
     echo -e "5)${Red}remove ${Blue}panel and daemon!${White}!"
     echo -e "6)${Red}remove ${Blue}panel${White} only!"
     echo -e "7)${Red}remove ${Blue}daemon${White} only!"
     echo -e "8)${Red}remove ${Blue}dependencies${White} only !"
-    echo -e "${Yellow}-_--_--_--_--_--_-${Red}exit${Yellow}-_--_--_--_--_--_--_--_--_-${White}"
     echo -e "9)${Red}exit${White} installer!"
     read -p "what do you want to do ? [1-9]: " choice
-    echo -e "${Yellow}-_--_--_--_--_--_-${Green}Log start${Yellow}-_--_--_--_--_--_--_--_--_-${White}"
     #choice outputs
     case $choice in
     1)
