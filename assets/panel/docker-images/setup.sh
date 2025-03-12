@@ -176,6 +176,7 @@ ui() {
             ;;
             
         4)  echo -e "${Green}Exiting to shell...${NC}"
+            echo "#"
             exit 0
             ;;
         
