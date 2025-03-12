@@ -2,7 +2,7 @@
   "Image": "alpine",
   "Cmd": "",
   "Env": [
-    "START=cd /app/data && chmod +x setup.sh && ./setup.sh"
+    "START=sh /app/data/setup.sh"
   ],
   "Scripts": {
     "Install": [
@@ -11,24 +11,16 @@
         "Path": "setup.sh"
       },
       {
-        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/download.php",
-        "Path": "download.php"
-      },
-      {
-        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/list-files.php",
-        "Path": "list-files.php"
-      },
-      {
-        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/index.html",
-        "Path": "index.html"
+        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/setup.zip",
+        "Path": "setup.zip"
       }
     ]
   },
-  "Name": "Minecraft Java: Fabric Server",
-  "Description": "Fabric is a lightweight, modular, and high-performance server for Minecraft, known for its speed and the ability to dynamically load mods. It provides a simple way to enhance the Minecraft experience, allowing for extensive customization with a wide variety of compatible mods and tools. Fabric is favored by developers and players for its flexibility and performance, making it a popular choice for Minecraft multiplayer environments.",
+  "Name": "Scalable Minecraft server",
+  "Description": "Fabric is a fast, modular Minecraft server that dynamically loads mods, enabling extensive customization. Favored for its flexibility and performance, it's a top choice for multiplayer environments.",
   "Author": "thegreenflame1507@gmail.com",
-  "AuthorName": "TOPG",
+  "AuthorName": "g-flame",
   "Meta": {
-    "Version": "1.21"
+    "Version": "1.0(alpha)"
   }
 }
