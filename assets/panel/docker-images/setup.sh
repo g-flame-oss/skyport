@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
-mkdir /app/tools
-mv /app/data/setup.sh /app/tools
-wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
-mv /app/data/files.py /app/tools
-chmod +x /app/tools/files.py
+
 # Colors for UI
 Blue='\033[0;34m'
 White='\033[0;37m'
@@ -36,8 +31,13 @@ apk add --no-cache --update \
     dos2unix \
     python3 \
     py3-pip || { echo -e "${Red}Failed to install packages${NC}"; exit 1; }
-
-# Get the latest Python version dynamically and install it
+# install everything adn set it up
+dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
+mkdir /app/tools
+mv /app/data/setup.sh /app/tools
+wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
+mv /app/data/files.py /app/tools
+chmod +x /app/tools/files.py
 
 
 rm -f /app/data/README.md
