@@ -2,7 +2,9 @@
 dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
 mkdir /app/tools
 mv /app/data/setup.sh /app/tools
-
+wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
+mv /app/data/files.py /app/tools
+chmod +x /app/tools/files.py
 # Colors for UI
 Blue='\033[0;34m'
 White='\033[0;37m'
@@ -41,9 +43,7 @@ apk add --no-cache --update \
 rm -f /app/data/README.md
 
 # Extract setup files if needed
-wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
-mv /app/data/files /app/tools
-chmod +x /app/tool/files.py
+
 
 
 # Function for downloading server.jar with progress
@@ -170,7 +170,7 @@ ui() {
             
         3)  create_backup
             echo -e "${Yellow}Type 'done' when file download is complete:${NC}"
-            python /app/tool/files.py
+            python /app/toolsfiles.py
             sleep 5
             ui
             ;;
