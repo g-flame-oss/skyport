@@ -2,7 +2,7 @@
   "Image": "alpine",
   "Cmd": "",
   "Env": [
-    "START=sh /app/data/setup.sh"
+    "START=bash setup.sh"
   ],
   "Scripts": {
     "Install": [
@@ -17,7 +17,7 @@
     ]
   },
   "Name": "Scalable Minecraft server",
-  "Description": "Fabric is a fast, modular Minecraft server that dynamically loads mods, enabling extensive customization. Favored for its flexibility and performance, it's a top choice for multiplayer environments.",
+  "Description": "This image lets you download and setup whatever minecraft server you wnat with ease !!",
   "Author": "thegreenflame1507@gmail.com",
   "AuthorName": "g-flame",
   "Meta": {
