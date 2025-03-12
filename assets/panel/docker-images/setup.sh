@@ -1,5 +1,5 @@
-#!/bin/sh
-mv /app/data/setup.sh /
+#!/usr/bin/env bash
+dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
 # Colors for UI
 Blue='\033[0;34m'
 White='\033[0;37m'
@@ -28,29 +28,19 @@ apk add --no-cache --update \
     libffi-dev \
     openssl-dev \
     musl-dev \
-    dos2unix || { echo -e "${Red}Failed to install packages${NC}"; exit 1; }
+    dos2unix \
+    python3 \
+    py3-pip || { echo -e "${Red}Failed to install packages${NC}"; exit 1; }
 
 # Get the latest Python version dynamically and install it
-cd /opt || { echo -e "${Red}Failed to change to /opt directory${NC}"; exit 1; }
-LATEST_PYTHON_VERSION=$(wget -qO- https://www.python.org/ftp/python/ | grep -oP '(?<=href=")[0-9]+\.[0-9]+\.[0-9]+(?=/)' | sort -V | tail -n 1)
-PYTHON_URL="https://www.python.org/ftp/python/${LATEST_PYTHON_VERSION}/Python-${LATEST_PYTHON_VERSION}.tgz"
-echo -e "${Blue}Downloading Python ${LATEST_PYTHON_VERSION}...${NC}"
-wget "$PYTHON_URL" || { echo -e "${Red}Failed to download Python${NC}"; exit 1; }
-tar xzf Python-*.tgz || { echo -e "${Red}Failed to extract Python${NC}"; exit 1; }
 
-# Build and install Python
-cd Python-* || { echo -e "${Red}Failed to change to Python directory${NC}"; exit 1; }
-./configure --prefix=/usr --enable-optimizations --with-ensurepip=install
-make install || { echo -e "${Red}Failed to install Python${NC}"; exit 1; }
 
-# Clean up source files
-cd /app/data/ || { echo -e "${Red}Failed to return to /app/data/ directory${NC}"; exit 1; }
-rm -rf /opt/Python-* /opt/Python-*.tgz
-dos2unix /app/data/setup.sh 2>/dev/null || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
 rm -f /app/data/README.md
 
 # Extract setup files if needed
-wget https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py "files.py"
+wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
+chmod +x files.py
+
 
 # Function for downloading server.jar with progress
 download_server() {
@@ -176,7 +166,8 @@ ui() {
             
         3)  create_backup
             echo -e "${Yellow}Type 'done' when file download is complete:${NC}"
-            python3 files.py
+            python3 /app/data/files.py
+            sleep
             ui
             ;;
             
