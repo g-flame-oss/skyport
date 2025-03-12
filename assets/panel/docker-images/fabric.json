@@ -11,7 +11,16 @@
         "Path": "setup.sh"
       },
       {
-        "Uri" 
+        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/download.php",
+        "Path": "download.php"
+      },
+      {
+        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/list-files.php",
+        "Path": "list-files.php"
+      },
+      {
+        "Uri": "https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/index.html",
+        "Path": "index.html"
       }
     ]
   },
