@@ -34,16 +34,12 @@ apk add --no-cache --update \
 # install everything adn set it up
 dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
 mkdir /app/tools
+chmod 755 /app/tools
+mkdir /app/backups
+chmod 755 /app/backups
 mv /app/data/setup.sh /app/tools
 wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
 mv /app/data/files.py /app/tools
-chmod +x /app/tools/files.py
-
-
-rm -f /app/data/README.md
-
-# Extract setup files if needed
-
 
 
 # Function for downloading server.jar with progress
@@ -98,6 +94,7 @@ create_backup() {
         cd /app/data || { echo -e "${Red}Failed to return to /app/data directory${NC}"; return 1; }
         return 1
     fi
+    mv backup* /app/backups/
 }
 
 # Function for running diagnostics
@@ -170,14 +167,14 @@ ui() {
             
         3)  create_backup
             echo -e "${Yellow}Type 'done' when file download is complete:${NC}"
-            python /app/toolsfiles.py
+            python /app/tools/files.py
             sleep 5
             ui
             ;;
             
         4)  echo -e "${Green}Exiting to shell...${NC}"
-            echo "#"
-            exit 0
+            bash
+            ui
             ;;
         
         5)  run_diagnostics
