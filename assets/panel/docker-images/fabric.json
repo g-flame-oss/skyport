@@ -2,7 +2,7 @@
   "Image": "alpine",
   "Cmd": "",
   "Env": [
-    "START=sh /app/tools/setup.sh && sh /app/data/setup.sh"
+    "START=sh/app/data/setup.sh"
   ],
   "Scripts": {
     "Install": [
