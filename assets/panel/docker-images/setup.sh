@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 dos2unix /app/data/setup.sh  || echo -e "${Yellow}Warning: dos2unix failed, but continuing...${NC}"
+mkdir /app/tools
+mv /app/data/setup.sh /app/tools
+
 # Colors for UI
 Blue='\033[0;34m'
 White='\033[0;37m'
@@ -39,7 +42,8 @@ rm -f /app/data/README.md
 
 # Extract setup files if needed
 wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
-chmod +x files.py
+mv /app/data/files /app/tools
+chmod +x /app/tool/files.py
 
 
 # Function for downloading server.jar with progress
@@ -166,8 +170,8 @@ ui() {
             
         3)  create_backup
             echo -e "${Yellow}Type 'done' when file download is complete:${NC}"
-            python3 /app/data/files.py
-            sleep
+            python /app/tool/files.py
+            sleep 5
             ui
             ;;
             
@@ -180,7 +184,7 @@ ui() {
             ;;
 
         6)  echo -e "${Blue}Exiting container...${NC}" 
-            exit 0
+            exit 
             ;;
             
         *)  echo -e "${Red}Error: Please enter a valid option${NC}"
