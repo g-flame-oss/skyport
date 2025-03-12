@@ -45,7 +45,7 @@ async function seed() {
 async function performSeeding() {
   try {
     const response = await axios.get(
-      'https://raw.githubusercontent.com/g-flame-oss/skyport/refs/heads/main/assets/panel/docker-images/fabric.json'
+      'https://raw.githubusercontent.com/g-flame-oss/Docker-Projects/refs/heads/main/assets/skyport/fabric/Fabric-1.21.json'
     );
     const imageData = response.data;
 
