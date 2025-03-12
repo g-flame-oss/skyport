@@ -41,6 +41,7 @@ mv /app/data/setup.sh /app/tools
 wget -O files.py https://raw.githubusercontent.com/g-flame-oss/py-file-explorer/refs/heads/main/main.py
 mv /app/data/files.py /app/tools
 
+sleep 2
 
 # Function for downloading server.jar with progress
 download_server() {
