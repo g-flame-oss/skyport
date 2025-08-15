@@ -1,4 +1,6 @@
 # SKYPORT INSTALLER
+<img width="1112" height="582" alt="image" src="https://github.com/user-attachments/assets/6e79dd23-7625-4235-be1a-a8a356e8b5f2" />
+
 A modern installer for the deprecated Skyport project, optimized for Debian-based systems.
 
 ![Maintained](https://img.shields.io/badge/Maintained-yes-green.svg)
